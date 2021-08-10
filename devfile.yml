@@ -1,0 +1,39 @@
+apiVersion: 1.0.0
+projects:
+  - name: flask-sample
+    source:
+      type: git
+      location: https://github.com/jamesregis/code-ready-workspace-python-web.git
+      branch: main
+metadata:
+  generateName: flask-
+components:
+  - type: chePlugin
+    id: ms-python/python/latest
+    memoryLimit: 512Mi
+  - type: dockerimage
+    image: quay.io/repository/eclipse/che-python-3.8
+    alias: python
+    mountSources: true
+    memoryLimit: 2Gi
+commands:
+  - name: run the application
+    actions:
+      - type: exec
+        component: flask
+        command: export FLASK_APP=hello.py && flask run
+        workdir: '${CHE_PROJECTS_ROOT}/flask-sample'
+#  - name: Debug remote node application
+#    actions:
+#      - type: vscode-launch
+#        referenceContent: |
+#          {
+#          "version": "0.2.0",
+#          "configurations": [
+#            {
+#              "type": "node",
+#              "name": "Debug (Attach) - Remote",
+#              "request": "attach",
+#              "port": 9229
+#            }]
+#          }
